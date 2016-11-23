@@ -35,4 +35,16 @@
         android:text="Actualizar Ubicación"
         android:onClick="actualizarUbicacion" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Cargando la dirección ..."
+        android:id="@+id/tvDireccion" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mostrar Dirección"
+        android:onClick="fetchAddressButtonHandler" />
+
 </LinearLayout>

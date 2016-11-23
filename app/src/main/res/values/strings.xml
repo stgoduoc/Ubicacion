@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Ubicacion</string>
+    <string name="service_not_available">Servicio No Disponible</string>
+    <string name="invalid_lat_long_used">Latitud y Longitud Inválida</string>
+    <string name="no_address_found">Dirección NO Encontrada</string>
+    <string name="address_found">Dirección Encontrada</string>
+    <string name="no_geocoder_available">Geocoder NO Disponible</string>
 </resources>
