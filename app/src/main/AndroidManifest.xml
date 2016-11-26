@@ -12,6 +12,10 @@
         android:theme="@style/AppTheme"
         android:name="android.support.multidex.MultiDexApplication">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBJu8RVwTMIOR257ftSDAP_N8tdS2V_acs" />
+
         <service android:name=".FetchAddressIntentService" android:exported="false" />
 
         <activity android:name=".MainActivity">

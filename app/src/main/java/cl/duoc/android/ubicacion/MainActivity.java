@@ -20,8 +20,14 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
 
     protected Location mLastLocation;
     // el Handler sirve para ejecutar onReceiveResult desde el Thread especificado
@@ -29,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private AddressResultReceiver mResultReceiver = new AddressResultReceiver(new Handler());
     private GoogleApiClient mGoogleApiClient;
     private boolean mAddressRequested;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,36 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+        // mapa
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        LatLng lugar = new LatLng(-33.598511, -70.578956);
+
+        String lugarTitle = "Duoc UC";
+        mMap.addMarker(new MarkerOptions().position(lugar).title(lugarTitle));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(lugar));
+
+        // zoom
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+    }
+
+    @Override
+    protected void onStart() {
         mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     public void fetchAddressButtonHandler(View view) {
@@ -153,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         mostrarToast(connectionResult.getErrorMessage());
     }
-
 
     // inner class
     class AddressResultReceiver extends ResultReceiver {
