@@ -20,7 +20,7 @@ public class FetchAddressIntentService extends IntentService {
 
     public static final String TAG = "FetchAddressIntentSvc";
 
-    protected ResultReceiver mReceiver = new ResultReceiver(null);
+    protected ResultReceiver mReceiver;
 
     private void deliverResultToReceiver(int resultCode, String message) {
         Bundle bundle = new Bundle();
@@ -44,6 +44,7 @@ public class FetchAddressIntentService extends IntentService {
         // Get the location passed to this service through an extra.
         Location location = intent.getParcelableExtra(
                 Constants.LOCATION_DATA_EXTRA);
+        mReceiver = intent.getParcelableExtra(Constants.RECEIVER);
 
         List<Address> addresses = null;
 

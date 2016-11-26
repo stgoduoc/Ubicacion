@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
+import android.os.Message;
 import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,7 +24,9 @@ import com.google.android.gms.location.LocationServices;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     protected Location mLastLocation;
-    private AddressResultReceiver mResultReceiver;
+    // el Handler sirve para ejecutar onReceiveResult desde el Thread especificado
+    // , en el caso de ser NULL se usa uno arbitrario
+    private AddressResultReceiver mResultReceiver = new AddressResultReceiver(new Handler());
     private GoogleApiClient mGoogleApiClient;
     private boolean mAddressRequested;
 
@@ -167,6 +170,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         public void displayAddressOutput() {
             showToast(mAddressOutput);
+            TextView tvDireccion = (TextView) MainActivity.this.findViewById(R.id.tvDireccion);
+            tvDireccion.setText(mAddressOutput);
+            showToast("Mostrando dirección en TextView ...");
         }
 
         @Override
